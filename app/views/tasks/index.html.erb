@@ -2,7 +2,7 @@
 
 <h1><%= current_user.manager? ? 'Tasks' : 'Assigned Tasks' %></h1>
 
-<table>
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>Name</th>
@@ -18,8 +18,8 @@
     <% @tasks.each do |task| %>
       <tr>
         <td><%= task.name %></td>
-        <td><%= task.start_date %></td>
-        <td><%= task.end_date %></td>
+        <td><%= task.start_date.strftime("%I:%M %p %b %d") %></td>
+        <td><%= task.end_date.strftime("%I:%M %p %b %d") %></td>
         <td><%= task.planned_hours %></td>
         <td><%= task.status %></td>
         <td><%= link_to 'Show', task %></td>

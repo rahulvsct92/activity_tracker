@@ -2,7 +2,7 @@
 
 <h1>Activities</h1>
 
-<table>
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>Duration</th>
@@ -16,7 +16,7 @@
     <% @activities.each do |activity| %>
       <tr>
         <td><%= activity.duration %></td>
-        <td><%= activity.date %></td>
+        <td><%= activity.date.strftime("%I:%M %p %b %d") %></td>
         <td><%= activity.description %></td>
         <td><%= link_to 'Show', activity %></td>
         <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
