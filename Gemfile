@@ -13,6 +13,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'devise', '~> 4.2'
+gem 'pundit', '~> 1.1'
 
 group :development, :test do
   gem 'byebug', platform: :mri
