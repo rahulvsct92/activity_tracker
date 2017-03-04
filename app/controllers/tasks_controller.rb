@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   before_action :authenticate_user!
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :assign, :assign_activity]
 
   def index
-    @tasks = Task.all
+    @tasks = current_user.manager? ? Task.all : current_user.tasks
   end
 
   def show
@@ -12,13 +12,15 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    authorize @task
   end
 
   def edit
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.created_tasks.build(task_params)
+    authorize @task
 
     respond_to do |format|
       if @task.save
@@ -51,13 +53,26 @@ class TasksController < ApplicationController
     end
   end
 
+  def assign
+  end
+
+  def assign_activity
+    @user = User.find_by(id: params[:user_id])
+    if !@user.blank? && @user.employee? && @task.users << @user
+      redirect_to tasks_url, notice: "Task assigned successfully" 
+    else
+      redirect_to tasks_url, notice: "Something went wrong" 
+    end
+  end
+
   private
 
   def set_task
     @task = Task.find(params[:id])
+    authorize @task
   end
 
   def task_params
-    params.require(:task).permit(:start_date, :end_date, :planned_hours, :status)
+    params.require(:task).permit(:start_date, :end_date, :planned_hours, :status, :name)
   end
 end

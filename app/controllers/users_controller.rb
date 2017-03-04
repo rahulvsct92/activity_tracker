@@ -1,15 +1,16 @@
 class UsersController < ApplicationController
 
 	before_action :authenticate_user!
-
 	before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
+    authorize User
   	@user = User.all
   end
 
   def new
   	@user = User.new
+    authorize @user
   end
 
   def show
@@ -17,6 +18,7 @@ class UsersController < ApplicationController
 
   def create
   	@user = User.new(user_params)
+    authorize @user
 
     respond_to do |format|
       if @user.save
@@ -51,6 +53,7 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+    authorize @user
   end
 
   def user_params

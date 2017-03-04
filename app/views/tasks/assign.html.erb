@@ -1,0 +1,12 @@
+<%= @task.name %>
+
+<%= form_tag({controller: "tasks", action: "assign_activity"}, {method: "post"}) do  %>
+
+  <%= label_tag :user %>
+  <%= select_tag :user_id, options_for_select(User.employee.collect{ |u| [u.email, u.id]}), {} %>
+
+
+  <%= label_tag :password %>
+
+  <%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
+<% end %>
